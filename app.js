@@ -38,8 +38,32 @@ const displayProduct = (data) => {
 // handle bookmark function
 
 const handleBookmark = (name, id, price) => {
+  const previousBookmark = JSON.parse(localStorage.getItem('bookmark'));
+  let bookmark = [];
   const product = {name, id, price, bookmark: true};
-  console.log(product );
+  // console.log(product );
+  
+  // console.log(previousBookmark);
+  if(previousBookmark){
+    const isThisProductMarked = previousBookmark.find((pd) => pd.id == id);
+    if(isThisProductMarked){
+      Swal.fire({
+        icon: 'error',
+        title: 'Bookmark already added',
+        text: 'Something went wrong!',
+        // footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }else{
+      bookmark.push(...previousBookmark, product);
+      localStorage.setItem('bookmark', JSON.stringify(bookmark));
+    }
+  }else{
+    // console.log('nai')
+    bookmark.push(product);
+
+    localStorage.setItem('bookmark', JSON.stringify(bookmark));
+    // JSON.stringify(localStorage.setItem('bookmark', bookmark));
+  }
 }
 
 
